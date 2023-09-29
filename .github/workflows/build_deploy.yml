@@ -6,25 +6,16 @@ on:
       - main
 
 jobs:
-  build:
+  build-node:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
-    
+    container: node:16
     steps:
-      - uses: actions/checkout@v4
-      - name: Use node js
-        uses: actions/checkout@v4
-        with:
-          node-version: ${{ matrix.node-version}}
-      - name: npm install and build
-        run: |
-          npm install
-          npm run build 
+      - run: node --version
+      - run: npm --version
+      - uses: actions/checkout@v4  
+      - run: npm install
+      - run: node server.js
 
-        env:
-          CI: true
   
   deploy:
     needs: [build]
